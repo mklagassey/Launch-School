@@ -91,16 +91,17 @@ player_score = 0
 comp_score = 0
 # Main loop
 loop do
-  choice = nil
+  player_choice = nil
+
   loop do # Get player choice, check validity and convert alias
     prompt MESSAGES[message_lang]['player_choice_prompt']
-    choice = gets.chomp.downcase
+    player_choice = gets.chomp.downcase
 
-    if INPUT_CHOICE_ALIASES.flatten.include?(choice)
-      choice = alias_convert(choice)
+    if INPUT_CHOICE_ALIASES.flatten.include?(player_choice)
+      player_choice = alias_convert(player_choice)
       break
     else
-      prompt "#{choice} #{MESSAGES[message_lang]['player_choice_error']}"
+      prompt "#{player_choice} #{MESSAGES[message_lang]['player_choice_error']}"
     end
   end
   # Computer choice and convert alias
@@ -108,23 +109,27 @@ loop do
   computer_choice = alias_convert(computer_choice)
   # Feedback on both choices and outcome
   # binding.pry
-  puts "#{MESSAGES[message_lang]['player_chose']} #{choice} &
+  puts "#{MESSAGES[message_lang]['player_chose']} #{player_choice} &
   #{MESSAGES[message_lang]['comp_chose']} #{computer_choice}"
-  win_lose_draw(choice, computer_choice, message_lang) # Game logic call
-  if win?(choice, computer_choice) then player_score += 1 end
-  if win?(computer_choice, choice) then comp_score += 1 end
+  # Game logic call
+  win_lose_draw(player_choice, computer_choice, message_lang)
+  # Round recap
+  if win?(player_choice, computer_choice) then player_score += 1 end
+  if win?(computer_choice, player_choice) then comp_score += 1 end
+  # Running score
   prompt MESSAGES[message_lang]['player_score'] + player_score.to_s
   prompt MESSAGES[message_lang]['comp_score'] + comp_score.to_s
+  # Game win messages
   if player_score > 4
     prompt MESSAGES[message_lang]['champion']
-    break
   elsif comp_score > 4
     prompt MESSAGES[message_lang['loser']]
-    break
   end
   # Replay option
-  prompt MESSAGES[message_lang]['play_again']
-  break unless gets.downcase.start_with?('y', 's')
+  if player_score > 4 || comp_score > 4
+    prompt MESSAGES[message_lang]['play_again']
+    break unless gets.downcase.start_with?('y', 's')
+  end
 end
 
 # Outro
