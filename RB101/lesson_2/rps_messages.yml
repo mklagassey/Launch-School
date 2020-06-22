@@ -1,0 +1,66 @@
+# Messages for RPS Game
+setup:
+  choose_lang: |
+    => Please choose your language
+      1) English
+      2) Español
+english:
+  welcome: |
+
+    ~~ Welcome to Rock, Paper, Scissor, Spock, Lizard! ~~
+
+    => Please enter your name
+
+  name_error: 'Please enter a valid name!'
+  greeting: 'Hi '
+  player_choice_prompt: |
+    Choose one of the following -
+      * Rock (r)
+      * Paper (p)
+      * Scissors (sc)
+      * Spock (sp)
+      * Lizard (l)
+  player_choice_error: |
+    isn't a valid choice. Try again.
+    -----------------------------------
+  win: "^^ You win! ^^"
+  lose: ":( You lose :("
+  draw: "-- Draw --"
+  player_chose: "You chose"
+  comp_chose: "AI chose"
+  player_score: "Your score: "
+  comp_score: "AI score: "
+  play_again: "Would you like to try again? Y/N"
+  champion: "You're the GRAND CHAMPION! Congratulations!"
+  loser: "You lost the championship. Better luck next time!"
+  outro: "Thanks for playing"
+spanish:
+  welcome: |
+
+    ~~ ¡Bienvenido a Rock, Paper, Scissor, Spock, Lizard! ~~
+
+     => Por favor ingrese su nombre
+
+  name_error: '¡Por favor ingrese un nombre valido!'
+  greeting: 'Hola '
+  player_choice_prompt: |
+    Elige uno de los siguientes -
+       * Rock (r)
+       * Papel (p)
+       * Tijeras (sc)
+       * Spock (sp)
+       * Lagarto (l)
+  player_choice_error: |
+    no es una elección válida. Inténtalo de nuevo.
+    -----------------------------------
+  win: "^^ ¡Tú ganas! ^^"
+  lose: ":( Tú pierdes :("
+  draw: "-- Un empate --"
+  player_chose: "Tu eliges"
+  comp_chose: "AI eligió"
+  player_score: "Tu puntuación: "
+  comp_score: "AI puntuación: "
+  play_again: "¿Le gustaría volver a intentarlo? S / N"
+  champion: "¡Eres el GRAN CAMPEÓN! ¡Felicidades!"
+  loser: "Perdiste el campeonato. ¡Mejor suerte la próxima vez!"
+  outro: "¡Gracias por jugar"
