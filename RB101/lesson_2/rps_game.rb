@@ -92,7 +92,7 @@ comp_score = 0
 # Main loop
 loop do
   player_choice = nil
-
+  endgame = false
   loop do # Get player choice, check validity and convert alias
     prompt MESSAGES[message_lang]['player_choice_prompt']
     player_choice = gets.chomp.downcase
@@ -122,11 +122,15 @@ loop do
   # Game win messages
   if player_score > 4
     prompt MESSAGES[message_lang]['champion']
+    endgame = true
   elsif comp_score > 4
     prompt MESSAGES[message_lang['loser']]
+    endgame = true
   end
   # Replay option
-  if player_score > 4 || comp_score > 4
+  if endgame == true
+    player_score = 0
+    comp_score = 0
     prompt MESSAGES[message_lang]['play_again']
     break unless gets.downcase.start_with?('y', 's')
   end
