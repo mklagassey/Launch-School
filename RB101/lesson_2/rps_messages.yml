@@ -9,7 +9,7 @@ english:
 
     ~~ Welcome to Rock, Paper, Scissor, Spock, Lizard! ~~
 
-    Like spicy rock, paper, scissors! Pick one of the
+    Like spicy "rock, paper, scissors"! Pick one of the
     options to see if you or the computer AI wins the round.
     First to score five points wins the Grand Champion title!
 
@@ -32,7 +32,7 @@ english:
   draw: "-- Draw --"
   player_chose: "You chose"
   comp_chose: "AI chose"
-  round_recap: 
+  round_recap:
   player_score: "Your score: "
   comp_score: "AI score: "
   play_again: "Would you like to try again? Y/N"
@@ -44,7 +44,7 @@ spanish:
 
     ~~ ¡Bienvenido a Rock, Paper, Scissor, Spock, Lizard! ~~
 
-    ¡Como piedra picante, papel, tijeras! Elige uno de los
+    ¡Como picante "rock, paper, scissors"! Elige uno de los
     opciones para ver si usted o la computadora AI gana la ronda.
     ¡Primero para anotar cinco puntos gana el título de Gran Campeón!
 
