@@ -4,6 +4,7 @@ setup:
     => Please choose your language
       1) English
       2) Español
+  lang_error: "Please enter '1' for English o '2' para Español"
 english:
   welcome: |
 
@@ -18,24 +19,35 @@ english:
   name_error: 'Please enter a valid name!'
   greeting: 'Hi '
   player_choice_prompt: |
+
     Choose one of the following -
       * Rock (r)
       * Paper (p)
       * Scissors (sc)
       * Spock (sp)
       * Lizard (l)
-  player_choice_error: |
+  player_error: |
     isn't a valid choice. Try again.
     -----------------------------------
-  win: "^^ You win! ^^"
-  lose: ":( You lose :("
-  draw: "-- Draw --"
+  win: |
+
+    ^^ You win! ^^
+    _______________
+  lose: |
+
+    :( You lose :(
+    _______________
+  draw: |
+
+    -- Draw --
+    _______________
   player_chose: "You chose"
   comp_chose: "AI chose"
   round_recap:
   player_score: "Your score: "
   comp_score: "AI score: "
   play_again: "Would you like to try again? Y/N"
+  yes_no_error: "Sorry, please choose: Y/YES or N/NO."
   champion: "You're the GRAND CHAMPION! Congratulations!"
   loser: "You lost the championship. Better luck next time!"
   outro: "Thanks for playing"
@@ -53,23 +65,31 @@ spanish:
   name_error: '¡Por favor ingrese un nombre valido!'
   greeting: 'Hola '
   player_choice_prompt: |
+
     Elige uno de los siguientes -
        * Rock (r)
        * Papel (p)
        * Tijeras (sc)
        * Spock (sp)
        * Lagarto (l)
-  player_choice_error: |
+  player_error: |
     no es una elección válida. Inténtalo de nuevo.
     -----------------------------------
-  win: "^^ ¡Tú ganas! ^^"
-  lose: ":( Tú pierdes :("
-  draw: "-- Un empate --"
+  win: |
+    ^^ ¡Tú ganas! ^^
+    _______________
+  lose: |
+    :( Tú pierdes :(
+    _______________
+  draw: |
+    -- Un empate --
+    _______________
   player_chose: "Tu eliges"
   comp_chose: "AI eligió"
   player_score: "Tu puntuación: "
   comp_score: "AI puntuación: "
-  play_again: "¿Le gustaría volver a intentarlo? S / N"
+  play_again: "¿Le gustaría volver a intentarlo? S / N."
+  yes_no_error: "Lo siento, elija: S / SÍ o N / NO."
   champion: "¡Eres el GRAN CAMPEÓN! ¡Felicidades!"
   loser: "Perdiste el campeonato. ¡Mejor suerte la próxima vez!"
   outro: "¡Gracias por jugar"
