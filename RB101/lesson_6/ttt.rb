@@ -1,7 +1,7 @@
 FIRST_TURN = ''             # Optional ability to choose default first player
 BLANK_SPOT_NUMS = (1..9)    # Denotes available squares on game board
 PLAYER_MARK = 'X'           # Denotes player taken squares on game board
-COMP_MARK = 'O'             # Denotes computer taken squares on game board
+COMPUTER_MARK = 'O'         # Denotes computer taken squares on game board
 WIN_COMBOS = [
   [1, 2, 3], [4, 5, 6], [7, 8, 9],    # Rows
   [1, 4, 7], [2, 5, 8], [3, 6, 9],    # Columns
@@ -9,7 +9,7 @@ WIN_COMBOS = [
 ]
 WELCOME_MSG = { 0 => 'Welcome to The TIC-TAC-TOE Championship!' }
 MARKER_MSG = {
-  0 => "Reminder: You are #{PLAYER_MARK}s and computer is #{COMP_MARK}s."
+  0 => "Reminder: You are #{PLAYER_MARK}s and computer is #{COMPUTER_MARK}s."
 }
 WIN = {
   0 => "**** Great job, keep it up! *****",
@@ -105,7 +105,7 @@ end
 
 # Is the first player constant already set?
 def first_player_set?(const)
-  const == 'player' || const == 'computer' ? true : false
+  const == 'player' || const == 'computer'
 end
 
 # Makes available spot number list more readable
@@ -126,12 +126,12 @@ def player_spots(brd)
   brd.keys.select { |num| brd[num] == PLAYER_MARK }
 end
 
-def comp_spots(brd)
-  brd.keys.select { |num| brd[num] == COMP_MARK }
+def computer_spots(brd)
+  brd.keys.select { |num| brd[num] == COMPUTER_MARK }
 end
 
 def all_taken_spots(brd)
-  player_spots(brd) + comp_spots(brd)
+  player_spots(brd) + computer_spots(brd)
 end
 
 # Gives the player or computer their chance to move
@@ -139,7 +139,7 @@ def current_turn_choice(current, brd)
   if current == 'player'
     player_choice!(brd)
   elsif current == 'computer'
-    comp_choice!(brd)
+    computer_choice!(brd)
   end
 end
 
@@ -164,13 +164,13 @@ def valid_move?(brd, square)
 end
 
 # Computer chooses position, modifies board
-def comp_choice!(brd)
-  spot = comp_strategy(brd)
-  brd[spot] = COMP_MARK
+def computer_choice!(brd)
+  spot = computer_strategy(brd)
+  brd[spot] = COMPUTER_MARK
 end
 
 # Core of computer's decision making rules
-def comp_strategy(brd)
+def computer_strategy(brd)
   if immediate_win?(brd)
     winning_spot(brd)
   elsif immediate_loss?(brd)
@@ -192,11 +192,11 @@ end
 
 # Is there a possibility to win in one move? Which spot is the winning move?
 def immediate_win?(brd)
-  !almost_win_combo(comp_spots(brd), brd).flatten.empty?
+  !almost_win_combo(computer_spots(brd), brd).flatten.empty?
 end
 
 def winning_spot(brd)
-  (almost_win_combo(comp_spots(brd), brd)[0] - comp_spots(brd))[0]
+  (almost_win_combo(computer_spots(brd), brd)[0] - computer_spots(brd))[0]
 end
 
 # Is there a possibility to lose in one move? Which spot is vulnerable?
@@ -227,7 +227,7 @@ end
 def who_won?(brd)
   WIN_COMBOS.each do |arr|
     return "Player" if arr.all? { |spot| brd[spot] == PLAYER_MARK }
-    return "Computer" if arr.all? { |spot| brd[spot] == COMP_MARK }
+    return "Computer" if arr.all? { |spot| brd[spot] == COMPUTER_MARK }
   end
   nil
 end
@@ -244,9 +244,18 @@ def champion?(player, comp)
 end
 
 def play_again?
+  loop do
   prompt "Do you want to play again? (y/n)"
   answer = gets.chomp.downcase
-  answer == 'y' || answer == 'yes' ? true : false
+    if answer == 'y' || answer == 'yes'
+      return true
+    elsif answer == 'n' || answer == 'no'
+      return false
+    else
+      puts "Sorry, please type 'yes' or 'no'."
+      next
+    end
+  end
 end
 
 def game_outro
@@ -254,49 +263,52 @@ def game_outro
   puts "Thanks for playing TIC-TAC-TOE Championship. Come back soon!"
 end
 
+def update_board_winner(brd, player, computer)
+  if who_won?(brd) == 'Player'
+    display_board(brd, player, computer, WIN)
+  else
+    display_board(brd, player, computer, LOSE)
+  end
+end
 # MAIN LOOP - SET UP NEW CHAMPIONSHIP
 loop do
   # Clear scores
   player_score = 0
-  comp_score = 0
+  computer_score = 0
   # Clear playing board, show welcome text
   board = numbered_board
-  display_board(board, player_score, comp_score, WELCOME_MSG)
+  display_board(board, player_score, computer_score, WELCOME_MSG)
   game_intro
   # Get preference for who goes first if not already hard-coded
   current = first_player(FIRST_TURN)
   # GAME LOOP
   loop do
     board = initialize_game_board if winner?(board) || cats_game?(board)
-    display_board(board, player_score, comp_score, MARKER_MSG)
+    display_board(board, player_score, computer_score, MARKER_MSG)
     # Get input from current player
     current_turn_choice(current, board)
     # Switch current player
     current = switch_player(current)
     # Checking for game-ending conditions (win/tie)
     if winner?(board)
-      if who_won?(board) == 'Player'
-        player_score += 1
-        display_board(board, player_score, comp_score, WIN)
-      else
-        comp_score += 1
-        display_board(board, player_score, comp_score, LOSE)
-      end
-      # Tell player outcome of game, pause until player ready
+      # Score update
+      who_won?(board) == 'Player' ? player_score += 1 : computer_score += 1
+      # Update board with win/lose message and current scores
+      update_board_winner(board, player_score, computer_score)
       prompt "#{who_won?(board)} won! Press 'Enter' to continue."
-      gets.chomp
+      gets
       # Exit game loop and return to main loop when a score reaches 5 points
-      break if champion?(player_score, comp_score)
+      break if champion?(player_score, computer_score)
     elsif cats_game?(board)
       # Tell player outcome of game, pause until player ready
-      display_board(board, player_score, comp_score, CAT)
+      display_board(board, player_score, computer_score, CAT)
       prompt "Cat's game. Nobody wins. Press 'Enter' to continue."
-      gets.chomp
+      gets
     end
   end
 
   # Displays overall winner of TTT championship
-  prompt "#{champion?(player_score, comp_score)} is the TTT Grand Champion!"
+  prompt "#{champion?(player_score, computer_score)} is the TTT Grand Champion!"
 
   # Ask player if they want another championship?
   break unless play_again?
