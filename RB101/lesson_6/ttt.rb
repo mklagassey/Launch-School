@@ -79,6 +79,18 @@ def initialize_game_board
   new_board
 end
 
+# Instructional prompt at championship beginning
+def game_intro
+  puts "Instructions: Players will choose a numbered spot on the board to place
+  their marker. The next player will then have a chance to place their marker.
+  Players continue alternating turns until all spots are taken or one player
+  wins by placing their marker 3 in a row (i.e. whole row, column or diagonal).
+  First player to win 5 games is the Grand Champion!
+
+  If you are ready to continue, please press 'Enter'."
+  gets
+end
+
 # Who should the first player be if not already specified in constant?
 def first_player(const)
   loop do
@@ -129,6 +141,10 @@ def current_turn_choice(current, brd)
   elsif current == 'computer'
     comp_choice!(brd)
   end
+end
+
+def switch_player(current_player)
+  current_player == 'player' ? 'computer' : 'player'
 end
 
 # Player chooses position, board is modified if spot is open
@@ -227,18 +243,6 @@ def champion?(player, comp)
   return "Computer" if comp >= 5
 end
 
-# Instructional prompt at championship beginning
-def game_intro
-  puts "Instructions: Players will choose a numbered spot on the board to place
-  their marker. The next player will then have a chance to place their marker.
-  Players continue alternating turns until all spots are taken or one player
-  wins by placing their marker 3 in a row (i.e. whole row, column or diagonal).
-  First player to win 5 games is the Grand Champion!
-
-  If you are ready to continue, please press 'Enter'."
-  gets
-end
-
 def play_again?
   prompt "Do you want to play again? (y/n)"
   answer = gets.chomp.downcase
@@ -268,7 +272,7 @@ loop do
     # Get input from current player
     current_turn_choice(current, board)
     # Switch current player
-    current = current == 'player' ? 'computer' : 'player'
+    current = switch_player(current)
     # Checking for game-ending conditions (win/tie)
     if winner?(board)
       if who_won?(board) == 'Player'
