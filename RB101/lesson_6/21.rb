@@ -160,11 +160,11 @@ def shuffle_animation
   puts '🙌'
 end
 
-# Gives a voice to the game, at least on Macs, probably throws all kinds of
-# errors on other platforms, but it works on my machine!
+# Gives a voice to the game, at least on Macs, shouldn't throw errors anymore on
+# other platforms
 def say_something(msg)
   puts msg
-  `say "#{msg.delete('!')}."`
+  system "say", msg
 end
 
 # All methods related to betting
@@ -316,10 +316,11 @@ def red_card!(hand)
 end
 
 def player_turn(p_hand, c_hand, dck)
-  total = 0
+  hand_check!(p_hand)
+  total = total(p_hand)
   loop do
     # Ask if player wants another card, go to dealer's turn if 'no' or busted
-    break if total > BUST || hit_or_stay?
+    break if total >= BUST || hit_or_stay?
     say_something "Player hits."
     # Deal another card to player if they chose 'hit'
     p_hand << dck.pop
@@ -332,15 +333,15 @@ def player_turn(p_hand, c_hand, dck)
 end
 
 def hit_or_stay?
-  answer = ''
+  ans = ''
   loop do
     puts "Do you want to hit (h) or stay (s)?"
-    answer = gets.chomp.downcase[0]
-    break if answer == 's' || answer == 'h'
+    ans = gets.chomp.downcase
+    break if ans == 's' || ans == 'h' || ans == 'stay' || ans == 'hit'
     puts "\a"
-    slow_text "Sorry, #{answer} is not valid. Please type either 'h' or 's'."
+    slow_text "Sorry, #{ans} is not valid. Please type either 'hit' or 'stay'."
   end
-  answer == 's'
+  ans[0] == 's'
 end
 
 # If potential bust condition exists, try to save it by changing high ace to low
@@ -385,24 +386,25 @@ def computer_turn(p_hand, c_hand, dck)
   end
 end
 
-# rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 def win_lose_draw(p_hand, c_hand)
   p_total = total(p_hand)
   c_total = total(c_hand)
   if either_player_busted?(p_total, c_total)
-    player_bust_msg(p_hand, c_hand, p_total) if p_total > BUST
-    computer_bust_msg(p_hand, c_hand, c_total) if c_total > BUST
+    display_busted(p_hand, c_hand, p_total, c_total)
   elsif draw?(p_total, c_total)
-    draw_msg(p_hand, c_hand, p_total)
+    display_draw(p_hand, c_hand, p_total)
   else
-    hand_win_msg(p_hand, c_hand, p_total, c_total) if p_total > c_total
-    hand_lose_msg(p_hand, c_hand, p_total, c_total) if p_total < c_total
+    display_win_lose(p_hand, c_hand, p_total, c_total)
   end
 end
-# rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
 def either_player_busted?(p_tot, c_tot)
   p_tot > BUST || c_tot > BUST
+end
+
+def display_busted(p_hnd, c_hnd, p_tot, c_tot)
+  player_bust_msg(p_hnd, c_hnd, p_tot) if p_tot > BUST
+  computer_bust_msg(p_hnd, c_hnd, c_tot) if c_tot > BUST
 end
 
 def player_bust_msg(p_hnd, c_hnd, p_tot)
@@ -420,9 +422,14 @@ def draw?(p_tot, c_tot)
   p_tot == c_tot
 end
 
-def draw_msg(p_hnd, c_hnd, p_tot)
+def display_draw(p_hnd, c_hnd, p_tot)
   show_both_hands(p_hnd, c_hnd, '')
   say_something "It's a push game. You and dealer tied at #{p_tot}."
+end
+
+def display_win_lose(p_hnd, c_hnd, p_tot, c_tot)
+  hand_win_msg(p_hnd, c_hnd, p_tot, c_tot) if p_tot > c_tot
+  hand_lose_msg(p_hnd, c_hnd, p_tot, c_tot) if p_tot < c_tot
 end
 
 def hand_win_msg(p_hnd, c_hnd, p_tot, c_tot)
@@ -445,15 +452,15 @@ def broke?(cash)
 end
 
 def play_again?
-  answer = nil
+  ans = nil
   loop do
     slow_text ">>> Play again? (y/n)"
-    answer = gets.chomp.downcase[0]
-    break if answer == 'y' || answer == 'n'
+    ans = gets.chomp.downcase
+    break if ans == 'y' || ans == 'n' || ans == 'yes' || ans == 'no'
     puts "\a"
     slow_text "Sorry, please type either 'y' or 'n'."
   end
-  answer == 'y'
+  ans[0] == 'y'
 end
 
 # Three game outcome messages: regular player, beat the house or broke as a joke
