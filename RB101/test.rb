@@ -3,7 +3,7 @@ arr = [4,5,6]
 
 def test
   puts NUMBERS.inspect
-  puts arr.inspect
+  # puts arr.inspect
 end
 
 test
