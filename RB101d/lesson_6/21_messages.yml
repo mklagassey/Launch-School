@@ -1,0 +1,15 @@
+BUST = 21
+
+intro:
+  welcome: |
+
+    --------------------- Welcome to VEGAS-STAKES #{BUST}™! ----------------------
+
+    The goal is to get as close to #{BUST} as you can*. Number cards are worth
+    their number value, face cards (jack/queen/king) are worth 10 and aces are
+    worth either 1 or 11. After your first two cards are dealt, you can choose
+    either hit (h) for another card or stay (s) if you are done with your turn.
+    The dealer then takes their turn and will automatically hit until they
+    reach at least #{DEALER_HIT_MINIMUM}. Winner is the one who has the highest score.
+
+    *#{colorize("Don't go over #{BUST} though or you'll bust!", 'red')}
