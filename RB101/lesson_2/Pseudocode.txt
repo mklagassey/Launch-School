@@ -1,0 +1,55 @@
+Pseudocode exercises
+
+For example, write out pseudo-code (both casual and formal) that does the following:
+
+    a method that returns the sum of two integers:
+    START
+    # Get the first integer from the user and set the integer_1 to its value
+    # Get the second, set integer_2
+    # Add the two integer vars, print the answer
+    END
+
+     a method that takes an array of strings, and returns a string that is all those strings concatenated together:
+     START
+     # Given an array of strings called 'string_array'
+     # Set a blank string called 'output'
+     # Iterate through string_array, for each string:
+      # Append string to output
+     # Print output
+     END
+
+     a method that takes an array of integers, and returns a new array with every other element from the original array, starting with the first element. For instance: every_other([1,4,7,2,5]) # => [1,7,5]
+     START
+     # Given an array of integers called 'ints_in'
+     # Set a variable 'position' to 0
+     # Set an empty array 'ints_out'
+     # Iterate through ints_in, for each int:
+      # Increase position by 1
+      # If position is even, skip to next iteration
+      # Push int onto ints_out
+     # Print ints_out
+     END
+
+     a method that determines the index of the 3rd occurrence of a given character in a string. For instance, if the given character is 'x' and the string is 'axbxcdxex', the method should return 6 (the index of the 3rd 'x'). If the given character does not occur at least 3 times, return nil.
+     START
+     # Given a single character 'match_char' and single string 'search_string'
+     # If search_string length < 3, return nil
+     # Set 'position' to -1
+     # Set 'occurrence' to 0
+     # Iterate through search_string, for each character 'char':
+      # If occurrence == 3, break
+      # If char == match_char, increment occurrence by 1
+      # Increment position by 1
+     # If occurrence == 3, return position, else nil
+     END
+
+a method that takes two arrays of numbers and returns the result of merging the arrays. The elements of the first array should become the elements at the even indexes of the returned array, while the elements of the second array should become the elements at the odd indexes. For instance: merge([1, 2, 3], [4, 5, 6]) # => [1, 4, 2, 5, 3, 6]  You may assume that both array arguments have the same number of elements.
+START
+# Given two equal size arrays, 'first_arr' and 'second_arr'
+# Set 'index' to 0
+# Set empty array 'merged_array'
+# For each element 'elem' in first_arr:
+  # Put elem into merged_array at end
+  # Put element at index in second_arr into merged_array at end
+  # Increment index by 1
+END
