@@ -1,9 +1,13 @@
-
-    # asks for two numbers
-    # asks for the type of operation to perform: add, subtract, multiply or divide
-    # displays the result
-
-# Use the Kernel.gets() method to retrieve user input, and use Kernel.puts() method to display output. Remember that Kernel.gets() includes the newline, so you have to call chomp() to remove it: Kernel.gets().chomp().
+# asks for two numbers
+# asks for the type of operation to perform: add, subtract, multiply or divide
+# displays the result
+=begin
+Use the Kernel.gets() method to retrieve user input, and use Kernel.puts()
+method to display output.
+Remember that Kernel.gets() includes the newline, so you have to call chomp() to
+remove it:
+Kernel.gets().chomp().
+=end
 def prompt(msg)
   puts "=> #{msg}"
 end
@@ -13,7 +17,7 @@ def valid_num(num)
 end
 
 def valid_op(op)
-  [1,2,3,4].include?(op)
+  [1, 2, 3, 4].include?(op)
 end
 
 def op_to_msg(op)
@@ -78,7 +82,7 @@ loop do
 
   case op
   when 1
-     result = first_num.to_i + second_num.to_i
+    result = first_num.to_i + second_num.to_i
   when 2
     result = first_num.to_i - second_num.to_i
   when 3
