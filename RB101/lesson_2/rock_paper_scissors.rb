@@ -1,11 +1,15 @@
 VALID_CHOICES = ["rock", "paper", "scissors"]
 
+def computer_win?(comp, user)
+  comp == "rock" && user == "scissors" ||
+    comp == "scissors" && user == "paper" ||
+    comp == "paper" && user == "rock"
+end
+
 def display_result(computer, user)
   if computer == user
     prompt "It's a tie!"
-  elsif computer == "rock" && user == "scissors" ||
-        computer == "scissors" && user == "paper" ||
-        computer == "paper" && user == "rock"
+  elsif computer_win?(computer, user)
     prompt "You lose!"
   else
     prompt "You win!!!"
@@ -30,7 +34,7 @@ prompt "Welcome to Rock-Paper-Scissors Showdown!"
 loop do
   user_choice = ''
   loop do
-    prompt "Choose one of the following: #{VALID_CHOICES.join(", ")}"
+    prompt "Choose one of the following: #{VALID_CHOICES.join(', ')}"
     user_choice = gets.chomp.downcase
 
     break if VALID_CHOICES.include? user_choice
